@@ -3,7 +3,11 @@ mod model;
 mod mcp;
 mod profile;
 mod severity;
+mod reports;
+mod rules;
 
+pub use rules::*;
+pub use reports::*;
 pub use severity::*;
 pub use profile::*;
 pub use mcp::*;

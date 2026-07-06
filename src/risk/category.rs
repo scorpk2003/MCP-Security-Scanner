@@ -1,7 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use crate::Severity;
 
 
-
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub enum RiskCategory {
     SecretExposure,
     DangerousToolCapability,
@@ -13,20 +15,24 @@ pub enum RiskCategory {
     Other(String),
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub enum AccessCategory {
     Path,
     File,
     Network,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct MCPRisk{
+    pub rule_id: String,
+    pub title: String,
     pub category: RiskCategory,
-    pub detection_idea: String,
     pub evidence: Option<Evidence>,
     pub severity_default: Severity,
     pub recommendation: String,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Evidence {
     pub file: Option<String>,
     pub line: Option<usize>,
