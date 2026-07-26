@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
-use crate::{MCPRisk, Severity};
+use crate::{MCPRisk};
 
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -13,7 +13,14 @@ pub struct ReportFormat {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct TargetReport {
-    pub name: String,
+    pub name: TargetType,
     pub runtime: String,
     pub tools_found: usize,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub enum TargetType {
+    JSON,
+    MARKDOWN,
+    CONSOLE,
 }
