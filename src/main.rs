@@ -1,7 +1,7 @@
 mod risk;
 mod model;
 mod mcp;
-mod targets;
+mod loaders;
 mod severity;
 mod reports;
 mod rules;
@@ -14,7 +14,7 @@ pub use cli::*;
 pub use rules::*;
 pub use reports::*;
 pub use severity::*;
-pub use targets::*;
+pub use loaders::*;
 pub use mcp::*;
 pub use model::*;
 pub use risk::*;

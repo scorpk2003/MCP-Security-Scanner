@@ -69,9 +69,9 @@ impl ScanRequest {
     // }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum InputType {
-    TARGET,
-    COMMAND,
-    CONFIG,
+    TARGET = 3,
+    COMMAND = 2,
+    CONFIG = 1,
 }
