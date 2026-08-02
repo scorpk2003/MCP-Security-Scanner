@@ -1,7 +1,7 @@
 use core::panic;
 use std::path::PathBuf;
 
-use crate::{InputType, MCPTool, ScanRequest, TargetType};
+use crate::{DOTNET_DISCOVERY, InputType, MCPTool, ScanRequest, TargetType};
 
 
 pub struct Profile {
@@ -42,6 +42,10 @@ impl Profile {
             }
         };
         panic!("\tCan't find input mode!!!");
+    }
+
+    pub fn project_boundary_discovery() -> Result<(), String> {
+        Ok(())
     }
 }
 
