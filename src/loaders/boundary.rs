@@ -1,6 +1,6 @@
-use std::{collections::HashSet, fs};
+use std::{fs};
 
-use crate::{DOTNET_DISCOVERY, Detector, PROJECT_BOUNDARY_DISCOVERY};
+use crate::{Detector, manifest_discovery};
 
 pub struct ProjectBoundary {
     pub root: String,
@@ -18,8 +18,7 @@ impl Detector for ProjectBoundary {
     fn detect(request: &crate::ScanRequest) -> Result<Self::Output, String> {
         let mut boundary = ProjectBoundary::default();
 
-        let manifest = PROJECT_BOUNDARY_DISCOVERY.iter().cloned().collect::<HashSet<&str>>();
-        let dotnet_manifest = DOTNET_DISCOVERY.iter().cloned().collect::<HashSet<&str>>();
+        let (manifest, dotnet_manifest) = manifest_discovery();
 
         if let Some(path) = request.target_path.clone() {
             let canonical = fs::canonicalize(path.clone()).unwrap_or_else(|_| path.clone().to_path_buf());
