@@ -1,5 +1,5 @@
 [package]
-name = "security-scanner"
+name = "mcp-security-scanner"
 version = "0.1.0"
 edition = "2024"
 
