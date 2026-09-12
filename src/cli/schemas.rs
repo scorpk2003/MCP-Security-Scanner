@@ -1,6 +1,6 @@
-use std::{path::{PathBuf}};
 use crate::{InputType, TargetType, validate::*};
 use clap::*;
+use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
 #[command(name = "mcp-security")]
@@ -57,14 +57,26 @@ impl Args {
             let target_str = self.target.clone().unwrap().to_string_lossy().into_owned();
             input.push((InputType::TARGET, target_str));
         }
-        if self.command.is_some() { 
-            input.push((InputType::COMMAND, self.command.clone().unwrap())); 
+        if self.command.is_some() {
+            input.push((InputType::COMMAND, self.command.clone().unwrap()));
         }
         if self.config.is_some() {
-            let config_str = self.config.clone().unwrap().to_string_lossy().into_owned(); 
-            input.push((InputType::CONFIG, config_str)); 
+            let config_str = self.config.clone().unwrap().to_string_lossy().into_owned();
+            input.push((InputType::CONFIG, config_str));
         }
 
         input
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use clap::Parser;
+
+    #[test]
+    fn test_call_cli() {
+        let args = vec!["mcp-security", "scan", "--target", "src/test/py"];
+        let cli = super::Cli::try_parse_from(args);
+        println!("\nTest CLI: {:?}\n", cli);
     }
 }

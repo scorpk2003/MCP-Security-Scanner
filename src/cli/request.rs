@@ -17,7 +17,9 @@ pub struct ScanRequest {
 
 impl Default for ScanRequest {
     fn default() -> Self {
-        let output = env::current_dir().expect("Get current directory failed!!!").join("docs/");
+        let output = env::current_dir()
+            .expect("Get current directory failed!!!")
+            .join("docs/");
         fs::create_dir_all(output.clone()).expect("Create directory for output failed!!!");
         let output_file = output.join("test_output.txt");
 
@@ -30,7 +32,17 @@ impl Default for ScanRequest {
         let timeout_ms = 1000 as u64;
         let verbose = false;
         let no_introspection = false;
-        Self { input_mode, target_path, cmd, config_path, format, output_path, timeout_ms, verbose, no_introspection }
+        Self {
+            input_mode,
+            target_path,
+            cmd,
+            config_path,
+            format,
+            output_path,
+            timeout_ms,
+            verbose,
+            no_introspection,
+        }
     }
 }
 
@@ -44,19 +56,25 @@ impl ScanRequest {
             match t {
                 InputType::COMMAND => {
                     scan_request.cmd = Some(s.clone());
-                },
+                }
                 InputType::CONFIG => {
                     scan_request.config_path = Some(PathBuf::from(s.clone()));
-                },
+                }
                 InputType::TARGET => {
                     scan_request.target_path = Some(PathBuf::from(s.clone()));
                 }
             }
         });
 
-        if args.format.is_some() {scan_request.format = args.format.clone().unwrap()}
-        if args.output.is_some() {scan_request.output_path = args.output.clone()}
-        if args.timeout.is_some() {scan_request.timeout_ms = args.timeout.unwrap()}
+        if args.format.is_some() {
+            scan_request.format = args.format.clone().unwrap()
+        }
+        if args.output.is_some() {
+            scan_request.output_path = args.output.clone()
+        }
+        if args.timeout.is_some() {
+            scan_request.timeout_ms = args.timeout.unwrap()
+        }
         scan_request.verbose = args.verbose;
         scan_request.no_introspection = args.no_instrospection;
 
@@ -65,7 +83,7 @@ impl ScanRequest {
 
     // fn binding_input(&mut self, input_scan: &Vec<(InputType, String)>)
     // {
-    //     let _ = 
+    //     let _ =
     // }
 }
 
@@ -74,4 +92,24 @@ pub enum InputType {
     TARGET = 3,
     COMMAND = 2,
     CONFIG = 1,
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn test_scan_request() {
+        use crate::schemas::Cli;
+        use clap::Parser;
+        let args = vec!["mcp-security", "scan", "--target", "src/test/py"];
+        let args = match Cli::try_parse_from(args) {
+            Ok(cli) => match cli.command {
+                crate::schemas::Cmd::Scan(req) => req,
+                _ => panic!("Expected Scan command"),
+            },
+            Err(e) => panic!("Error parsing CLI arguments: {}", e),
+        };
+
+        let request = super::ScanRequest::mapping_args(&args);
+        println!("\nTest ScanRequest: {:?}\n", request);
+    }
 }
